@@ -29,7 +29,9 @@ function Hand({ label, cards, total, visibleTotal}){
         <section className = "hand-panel">
             <div className="hand-header">
                 <span className = "hand-label">{label}</span>
-                <span className="total-badge">{displayTotal}</span>
+                {displayTotal !== null && displayTotal !== undefined && (
+                    <span className="total-badge">{displayTotal}</span>
+                )}
             </div>
             <div className="cards-row">
                 {cards.map((card, index) => (
@@ -94,21 +96,65 @@ return (
                     </>
                 )}
             </div>
+             
 
             <div className="controls">
-                <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={handleNewGame}
-                    disabled={loading}
-                >
-                    {loading ? 'Dealing...' : 'New Game'}
-                </button>
-            </div>
+  {!game ? (
+    <button
+      type="button"
+      className="btn btn-primary"
+      onClick={handleNewGame}
+      disabled={loading}
+    >
+      {loading ? 'Dealing...' : 'New Game'}
+    </button>
+  ) : game.status === 'player_turn' ? (
+    <div className="controls controls-split">
+      <button
+        type="button"
+        className="btn btn-hit"
+        onClick={handleHit}
+        disabled={loading}
+      >
+        Hit
+      </button>
+      <button
+        type="button"
+        className="btn btn-stand"
+        onClick={handleStand}
+        disabled={loading}
+      >
+        Stand
+      </button>
+    </div>
+  ) : null}
+</div>
+            
+            
         </main>
     </div>
 );
-}
 
+
+async function runAction(action){
+    setLoading(true);
+    setError(null);
+    try{
+        const nextGame = await action();
+        setGame(nextGame);
+    }catch (err){
+        setError(err.message);
+    } finally{ 
+        setLoading(false);
+    }
+    }
+
+    function handleHit(){
+        runAction(() => window.api.hit(game.id));
+    }
+    function handleStand(){
+        runAction(() => window.api.stand(game.id));
+    }
+}
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
