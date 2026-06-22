@@ -1,0 +1,123 @@
+{
+  "info": {
+    "_postman_id": "32a179f2-808b-4d44-951e-2d7066bebfc5",
+    "name": "BlackJack",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56030726",
+    "_collection_link": "https://go.postman.co/collection/56030726-32a179f2-808b-4d44-951e-2d7066bebfc5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Shuffle Deck",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://deckofcardsapi.com/api/deck/new/shuffle/",
+          "protocol": "https",
+          "host": [
+            "deckofcardsapi",
+            "com"
+          ],
+          "path": [
+            "api",
+            "deck",
+            "new",
+            "shuffle",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Draw Cards",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://deckofcardsapi.com/api/deck/fv7m0dewcqqa/draw/?count=4",
+          "protocol": "https",
+          "host": [
+            "deckofcardsapi",
+            "com"
+          ],
+          "path": [
+            "api",
+            "deck",
+            "fv7m0dewcqqa",
+            "draw",
+            ""
+          ],
+          "query": [
+            {
+              "key": "count",
+              "value": "4"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Hit Card",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://deckofcardsapi.com/api/deck/fv7m0dewcqqa/draw/?count=1",
+          "protocol": "https",
+          "host": [
+            "deckofcardsapi",
+            "com"
+          ],
+          "path": [
+            "api",
+            "deck",
+            "fv7m0dewcqqa",
+            "draw",
+            ""
+          ],
+          "query": [
+            {
+              "key": "count",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reshuffle Deck",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://deckofcardsapi.com/api/deck/fv7m0dewcqqa/shuffle/",
+          "protocol": "https",
+          "host": [
+            "deckofcardsapi",
+            "com"
+          ],
+          "path": [
+            "api",
+            "deck",
+            "fv7m0dewcqqa",
+            "shuffle",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Error",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
