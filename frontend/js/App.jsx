@@ -90,6 +90,7 @@ return (
     <div className = "page">
         <main className = "app">
             <header className = "header">
+                <h1>Blackjack</h1>
                 <p className = "tagline"> Beat the dealer. Don&apos;t bust.</p>
             </header>
             {error && <div className = "error-banner">{error}</div>}
@@ -111,7 +112,7 @@ return (
                         visibleTotal={game.visibleDealerTotal}
                       />
                       <div className="table-divider">
-                        <span>{game.status === 'player_turn' ? 'Your move' : 'Final hand'}</span>
+                        <span>{game.status === 'player_turn' ? 'Your turn' : 'Round over'}</span>
                       </div>
                       <Hand
                         label="You"
@@ -121,53 +122,55 @@ return (
                     </>
                 )}
             </div>
-             
 
-            <div className="controls">
-  {!game ? (
-    <button
-      type="button"
-      className="btn btn-primary"
-      onClick={handleNewGame}
-      disabled={loading}
-    >
-      {loading ? 'Dealing...' : 'New Game'}
-    </button>
-  ) : game.status === 'player_turn' ? (
-    <div className="controls controls-split">
-      <button
-        type="button"
-        className="btn btn-hit"
-        onClick={handleHit}
-        disabled={loading}
-      >
-        Hit
-      </button>
-      <button
-        type="button"
-        className="btn btn-stand"
-        onClick={handleStand}
-        disabled={loading}
-      >
-        Stand
-      </button>
-    </div>
-   ) : (
-    <div className="controls controls-finished">
-      <div className={`result-banner ${getResultClass(game.result)}`}>
-        {game.result}
-      </div>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={handleNewGame}
-        disabled={loading}
-      >
-        {loading ? 'Dealing...' : 'Play Again'}
-      </button>
-    </div>
-  )}
-  </div>
+            <div className="action-panel">
+              {!game ? (
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleNewGame}
+                  disabled={loading}
+                >
+                  {loading ? 'Dealing...' : 'New Game'}
+                </button>
+              ) : game.status === 'player_turn' ? (
+                <>
+                  <p className="action-panel__hint">Choose your move</p>
+                  <div className="controls controls-split">
+                    <button
+                      type="button"
+                      className="btn btn-hit"
+                      onClick={handleHit}
+                      disabled={loading}
+                    >
+                      Hit
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-stand"
+                      onClick={handleStand}
+                      disabled={loading}
+                    >
+                      Stand
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={`result-banner ${getResultClass(game.result)}`}>
+                    {game.result}
+                  </div>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleNewGame}
+                    disabled={loading}
+                  >
+                    {loading ? 'Dealing...' : 'Play Again'}
+                  </button>
+                </>
+              )}
+            </div>
  </main>
  
  </div>
