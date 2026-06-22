@@ -1,4 +1,3 @@
-
 const {useState} = React;
 function Card({card}){
     if(card.hidden){
@@ -42,6 +41,13 @@ function Hand({ label, cards, total, visibleTotal}){
     )
 
 }
+function getResultClass(result){
+    if(!result) return '';
+    const r = result.toLowerCase();
+    if (r.includes('you win') || r.includes('blackjack!')) return 'win';
+    if (r.includes('you lose') || r.includes('you bust')) return 'lose';
+    return 'push';
+}
 
 function App(){
     const [game, setGame] = useState(null);
@@ -60,6 +66,25 @@ function App(){
             setLoading(false);
         }
     }
+    async function runAction(action){
+        setLoading(true);
+        setError(null);
+        try{
+            const nextGame = await action();
+            setGame(nextGame);
+        }catch (err){
+            setError(err.message);
+        } finally{ 
+            setLoading(false);
+        }
+        }
+    
+        function handleHit(){
+            runAction(() => window.api.hit(game.id));
+        }
+        function handleStand(){
+            runAction(() => window.api.stand(game.id));
+        }
 
 return (
     <div className = "page">
@@ -127,34 +152,28 @@ return (
         Stand
       </button>
     </div>
-  ) : null}
-</div>
-            
-            
-        </main>
+   ) : (
+    <div className="controls controls-finished">
+      <div className={`result-banner ${getResultClass(game.result)}`}>
+        {game.result}
+      </div>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={handleNewGame}
+        disabled={loading}
+      >
+        {loading ? 'Dealing...' : 'Play Again'}
+      </button>
     </div>
+  )}
+  </div>
+ </main>
+ 
+ </div>
 );
 
 
-async function runAction(action){
-    setLoading(true);
-    setError(null);
-    try{
-        const nextGame = await action();
-        setGame(nextGame);
-    }catch (err){
-        setError(err.message);
-    } finally{ 
-        setLoading(false);
-    }
-    }
-
-    function handleHit(){
-        runAction(() => window.api.hit(game.id));
-    }
-    function handleStand(){
-        runAction(() => window.api.stand(game.id));
-    }
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
