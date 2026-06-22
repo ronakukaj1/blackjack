@@ -60,3 +60,8 @@ The frontend talks to the backend at `http://localhost:3001`. If the backend is 
 - **Backend:** Express, in-memory game store, Deck of Cards API
 - **Frontend:** React + Vite
 
+## Design docs
+
+- [Whiteboard sketch](docs/BlackJack.png)
+- [Postman collection](docs/backjack-postman.json)
+
