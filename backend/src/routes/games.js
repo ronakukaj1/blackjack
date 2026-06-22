@@ -67,7 +67,7 @@ router.post('/:id/hit', async (req, res)=>{
      }
 
      try{
-        const [card]= await drawCards(getGame.deckId, 1);
+        const [card]= await drawCards(game.deckId, 1);
         game.playerHand.push(card);
 
         if(handTotal(game.playerHand)>21){
@@ -81,5 +81,29 @@ router.post('/:id/hit', async (req, res)=>{
         res.status(502).json({error: error.message});
     }
      });
-     
+
+
+     router.post('/:id/stand', async (req, res)=>{
+        const game=getGame(req.params.id);
+
+        if(!game){
+            return res.status(404).json({error: 'Game not found'});
+        }
+        if(game.status !=='player_turn'){
+            return res.status(400).json({error: 'Game is not in player turn'});
+        }
+        try{
+            while(handTotal(game.dealerHand)<17){
+                const [card] = await drawCards(game.deckId, 1);
+                game.dealerHand.push(card);
+            }
+            game.status='finished';
+            game.result=determineResult(game.playerHand, game.dealerHand);
+            saveGame(game);
+            res.json(toClientGame(game));
+        }catch(error){
+            res.status(502).json({error: error.message});
+        }
+     });
+
 export default router;
